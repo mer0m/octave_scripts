@@ -1,0 +1,7 @@
+`~/.octaverc`
+
+```
+pkg load all
+more
+addpath('path/to/octave_scripts')
+```
