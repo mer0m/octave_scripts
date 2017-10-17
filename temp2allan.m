@@ -7,7 +7,7 @@ mult = eval(argv(){3});
 data.freq = load(filename)(:,col).*mult;
 data.rate = 1;
 
-[ad, s, err, tau] = allan(data, 2.^(0:12), '', 0);
+[ad, s, err, tau] = allan(data, 2.^(0:nextpow2(length(data.freq)))), '', 0);
 tosave = vertcat(tau, ad, err)';
 save('-ascii', strcat(strsplit(filename, '.'){1}, '_ad.dat'), 'tosave');
 
