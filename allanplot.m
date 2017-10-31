@@ -11,6 +11,10 @@ if length(col) == length(mult)
     cc = 'bkcgmry';
     for i = [1:length(col)]
         data.freq = load(filename)(:,col(i)).*mult(i);
+        if eval(argv(){4})(i) == 1
+            printf(strcat(filename, ' col', num2str(col(i)), ' drift removed\n\n'))
+            data.freq = detrend(data.freq);
+        end
         data.rate = 1;
         [ad, S, err, tau] = allan(data, 2.^[0:nextpow2(length(data.freq))-3]./data.rate, strcat(strsplit(filename, '/'){end}, num2str(i)), 0);
         loglogerr(tau, ad, err, strcat(cc(mod(i, length(cc))), '-s'))
