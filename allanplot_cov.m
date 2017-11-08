@@ -14,6 +14,8 @@ if length(col1) == length(mult1)
     for i = [1:length(col1)]
         data.freq = load(filename)(:,col1(i)).*mult1(i);
         data.freq2 = load(filename)(:,col2(i)).*mult2(i);
+        data.freq = data.freq(1:min(length(data.freq), length(data.freq2)));
+        data.freq2 = data.freq2(1:min(length(data.freq), length(data.freq2)));
         if eval(argv(){end-1}) == 1
             printf('\ndata1 drift removed\n\n')
             data.freq = detrend(data.freq);
