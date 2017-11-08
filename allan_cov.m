@@ -328,7 +328,7 @@ if isfield(data,'rate') && data.rate > 0 % if data rate was given
         fd2=diff(fa2);
         % calculate two-sample variance for this tau
         M=length(fa);
-        sm(k)=sqrt(0.5/(M-1)*(sum(fd.*fd2)));
+        sm(k)=sqrt(0.5/(M-1)*(abs(sum(fd.*fd2))));
 
         % estimate error bars
         sme(k)=sm(k)/sqrt(M+1);
