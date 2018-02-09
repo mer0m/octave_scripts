@@ -6,9 +6,9 @@ function hL = dsplot(x, y, numPoints)
 %
 %   DSPLOT(X, Y) plots Y versus X by downsampling if there are large number
 %   of elements. X and Y needs to obey the following:
-%     1. X must be a monotonically increasing vector.
-%     2. If Y is a vector, it must be the same size as X.
-%     3. If Y is a matrix, one of the dimensions must line up with X.
+%	 1. X must be a monotonically increasing vector.
+%	 2. If Y is a vector, it must be the same size as X.
+%	 3. If Y is a matrix, one of the dimensions must line up with X.
 %
 %   DSPLOT(Y) plots the columns of Y versus their index.
 %
@@ -58,9 +58,9 @@ function hL = dsplot(x, y, numPoints)
 %  Version:
 %   v1.0 - first version (Aug 1, 2007)
 %   v1.1 - added CreateFcn for the figure so that when the figure is saved
-%          and re-loaded, the zooming and panning works. Also added a menu
-%          item for saving out the original data back to the base
-%          workspace. (Aug 10, 2007)
+%		  and re-loaded, the zooming and panning works. Also added a menu
+%		  item for saving out the original data back to the base
+%		  workspace. (Aug 10, 2007)
 %
 %  Jiro Doke
 %  August 1, 2007
@@ -101,13 +101,13 @@ numSignals = size(y, 2);
 % orientation.
 if numSignals > size(y, 1)
   s = input(sprintf('Are you sure you want to plot %d lines? (y/n) ', ...
-    numSignals), 's');
+	numSignals), 's');
   if ~strcmpi(s, 'y')
-    disp('Canceled. You may want to transpose the matrix.');
-    if nargout == 1
-      hL = [];
-    end
-    return;
+	disp('Canceled. You may want to transpose the matrix.');
+	if nargout == 1
+	  hL = [];
+	end
+	return;
   end
 end
 
@@ -120,7 +120,7 @@ clear a;
 
 % Always create new figure because it messes around with zoom, pan,
 % datacursors.
-hFig    = figure;
+hFig	= figure;
 figName = '';
 
 % Create template plot using NaNs
@@ -147,173 +147,173 @@ end
 
 %--------------------------------------------------------------------------
   function myExportFcn(varargin)
-    % This callback allows for extracting the actual data from the figure.
-    % This means that if you save this figure and load it back later, you
-    % can get back the data.
-    
-    % Determine the variable name
-    allVarNames = evalin('base', 'who');
-    newVarName = genvarname('dsplotData', allVarNames);
-    
-    % X
-    if ~noXVar
-      if varTranspose
-        dat.x = x';
-      else
-        dat.x = x;
-      end
-    end
-    
-    % Y
-    if varTranspose
-      dat.y = y';
-    else
-      dat.y = y;
-    end
-    
-    assignin('base', newVarName, dat);
-    
-    msgbox(sprintf('Data saved to the base workspace as ''%s''.', ...
-      newVarName), 'Saved', 'modal');
-    
+	% This callback allows for extracting the actual data from the figure.
+	% This means that if you save this figure and load it back later, you
+	% can get back the data.
+	
+	% Determine the variable name
+	allVarNames = evalin('base', 'who');
+	newVarName = genvarname('dsplotData', allVarNames);
+	
+	% X
+	if ~noXVar
+	  if varTranspose
+		dat.x = x';
+	  else
+		dat.x = x;
+	  end
+	end
+	
+	% Y
+	if varTranspose
+	  dat.y = y';
+	else
+	  dat.y = y;
+	end
+	
+	assignin('base', newVarName, dat);
+	
+	msgbox(sprintf('Data saved to the base workspace as ''%s''.', ...
+	  newVarName), 'Saved', 'modal');
+	
   end
 
 %--------------------------------------------------------------------------
   function mycreatefcn(varargin)
-    % This callback defines the custom zoom/pan functions. It is defined as
-    % the CreateFcn of the figure, so it allows for saving and reloading of
-    % the figure.
+	% This callback defines the custom zoom/pan functions. It is defined as
+	% the CreateFcn of the figure, so it allows for saving and reloading of
+	% the figure.
 
-    if nargin > 0
-      hFig = varargin{1};
-    end
-    hLine = findobj(hFig, 'type', 'axes');
-    hLine(strmatch('legend', get(hLine, 'tag'))) = [];
-    hLine = get(hLine, 'Children');
-    
-    % Create Zoom, Pan, Datacursor objects
-    hZoom = zoom(hFig);
-    hPan  = pan(hFig);
-    hDc   = datacursormode(hFig);
-    set(hZoom, 'ActionPostCallback', @mypostcallback);
-    set(hPan , 'ActionPostCallback', @mypostcallback);
-    set(hDc  , 'UpdateFcn'         , @myDCupdatefcn);
+	if nargin > 0
+	  hFig = varargin{1};
+	end
+	hLine = findobj(hFig, 'type', 'axes');
+	hLine(strmatch('legend', get(hLine, 'tag'))) = [];
+	hLine = get(hLine, 'Children');
+	
+	% Create Zoom, Pan, Datacursor objects
+	hZoom = zoom(hFig);
+	hPan  = pan(hFig);
+	hDc   = datacursormode(hFig);
+	set(hZoom, 'ActionPostCallback', @mypostcallback);
+	set(hPan , 'ActionPostCallback', @mypostcallback);
+	set(hDc  , 'UpdateFcn'		 , @myDCupdatefcn);
 
   end
 
 %--------------------------------------------------------------------------
   function mypostcallback(obj, evd) %#ok
-    % This callback that gets called when the mouse is released after
-    % zooming or panning.
+	% This callback that gets called when the mouse is released after
+	% zooming or panning.
 
-    % single or double-click
-    switch get(hFig, 'SelectionType')
-      case {'normal', 'alt'}
-        updateLines(xlim(evd.Axes));
+	% single or double-click
+	switch get(hFig, 'SelectionType')
+	  case {'normal', 'alt'}
+		updateLines(xlim(evd.Axes));
 
-      case 'open'
-        updateLines([min(x), max(x)]);
+	  case 'open'
+		updateLines([min(x), max(x)]);
 
-    end
+	end
 
   end
 
 %--------------------------------------------------------------------------
   function updateLines(rng)
-    % This helper function is for determining the points to plot on the
-    % screen based on which portion is visible in the current limits.
+	% This helper function is for determining the points to plot on the
+	% screen based on which portion is visible in the current limits.
 
-    % find indeces inside the range
-    id = find(x >= rng(1) & x <= rng(2));
+	% find indeces inside the range
+	id = find(x >= rng(1) & x <= rng(2));
 
-    % if there are more points than we want
-    if length(id) > numPoints / numSignals
+	% if there are more points than we want
+	if length(id) > numPoints / numSignals
 
-      % see how many outlier points are in this range
-      blah = iOutliers > id(1) & iOutliers < id(end);
+	  % see how many outlier points are in this range
+	  blah = iOutliers > id(1) & iOutliers < id(end);
 
-      % determine indeces of points to plot. 
-      idid = round(linspace(id(1), id(end), round(numPoints/numSignals)))';
+	  % determine indeces of points to plot. 
+	  idid = round(linspace(id(1), id(end), round(numPoints/numSignals)))';
 
-      x2 = cell(numSignals, 1);
-      y2 = x2;
-      for iSignals = 1:numSignals
-        % add outlier points
-        ididid = unique([idid; iOutliers(blah & jOutliers == iSignals)]);
-        x2{iSignals} = x(ididid);
-        y2{iSignals} = y(ididid, iSignals);
-      end
+	  x2 = cell(numSignals, 1);
+	  y2 = x2;
+	  for iSignals = 1:numSignals
+		% add outlier points
+		ididid = unique([idid; iOutliers(blah & jOutliers == iSignals)]);
+		x2{iSignals} = x(ididid);
+		y2{iSignals} = y(ididid, iSignals);
+	  end
 
-      if debugMode
-        figName = ['downsampled - ', sprintf('%d, ', cellfun('length', y2))];
-      else
-        figName = 'downsampled';
-      end
+	  if debugMode
+		figName = ['downsampled - ', sprintf('%d, ', cellfun('length', y2))];
+	  else
+		figName = 'downsampled';
+	  end
 
-    else % no need to down sample
-      figName = 'true';
+	else % no need to down sample
+	  figName = 'true';
 
-      x2 = repmat({x(id)}, numSignals, 1);
-      y2 = mat2cell(y(id, :), length(id), ones(1, numSignals))';
+	  x2 = repmat({x(id)}, numSignals, 1);
+	  y2 = mat2cell(y(id, :), length(id), ones(1, numSignals))';
 
-    end
+	end
 
-    % Update plot
-    set(hLine, {'xdata', 'ydata'} , [x2, y2]);
-    set(hFig, 'Name', figName);
+	% Update plot
+	set(hLine, {'xdata', 'ydata'} , [x2, y2]);
+	set(hFig, 'Name', figName);
 
   end
 
 %--------------------------------------------------------------------------
   function txt = myDCupdatefcn(empt, event_obj) %#ok
-    % This function displays appropriate data cursor message based on the
-    % display type
+	% This function displays appropriate data cursor message based on the
+	% display type
 
-    pos = get(event_obj,'Position');
-    switch figName
-      case 'true'
-        txt = {['X: ',num2str(pos(1))],...
-          ['Y: ',num2str(pos(2))]};
-      otherwise
-        txt = {['X: ',num2str(pos(1))],...
-          ['Y: ',num2str(pos(2))], ...
-          'Warning: Downsampled', ...
-          'May not be accurate'};
-    end
+	pos = get(event_obj,'Position');
+	switch figName
+	  case 'true'
+		txt = {['X: ',num2str(pos(1))],...
+		  ['Y: ',num2str(pos(2))]};
+	  otherwise
+		txt = {['X: ',num2str(pos(1))],...
+		  ['Y: ',num2str(pos(2))], ...
+		  'Warning: Downsampled', ...
+		  'May not be accurate'};
+	end
   end
 
 %--------------------------------------------------------------------------
   function myErrorCheck
-    % Do some error checking on the input arguments.
+	% Do some error checking on the input arguments.
 
-    if ~isa(numPoints, 'double') || numel(numPoints) > 1 || numPoints < 500
-      error('Third argument must be a scalar greater than 500');
-    end
-    if ~isnumeric(x) || ~isnumeric(y)
-      error('Arguments must be numeric');
-    end
-    if length(size(x)) > 2 || length(size(y)) > 2
-      error('Only 2-D data accepted');
-    end
-    
-    % If only one input, create index vector X
-    if isempty(x)
-      if ismember(1, size(y))
-        x = reshape(1:numel(y), size(y));
-      else
-        x = (1:size(y, 1))';
-      end
-    end
-    
-    if ~ismember(1, size(x))
-      error('First argument has to be a vector');
-    end
-    if ~isequal(size(x, 1), size(y, 1)) && ~isequal(size(x, 2), size(y, 2))
-      error('One of the dimensions of the two arguments must match');
-    end
-    if any(diff(x) <= 0)
-      error('The first argument has to be a monotonically increasing vector');
-    end
+	if ~isa(numPoints, 'double') || numel(numPoints) > 1 || numPoints < 500
+	  error('Third argument must be a scalar greater than 500');
+	end
+	if ~isnumeric(x) || ~isnumeric(y)
+	  error('Arguments must be numeric');
+	end
+	if length(size(x)) > 2 || length(size(y)) > 2
+	  error('Only 2-D data accepted');
+	end
+	
+	% If only one input, create index vector X
+	if isempty(x)
+	  if ismember(1, size(y))
+		x = reshape(1:numel(y), size(y));
+	  else
+		x = (1:size(y, 1))';
+	  end
+	end
+	
+	if ~ismember(1, size(x))
+	  error('First argument has to be a vector');
+	end
+	if ~isequal(size(x, 1), size(y, 1)) && ~isequal(size(x, 2), size(y, 2))
+	  error('One of the dimensions of the two arguments must match');
+	end
+	if any(diff(x) <= 0)
+	  error('The first argument has to be a monotonically increasing vector');
+	end
   end
 
 end
