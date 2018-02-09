@@ -16,7 +16,7 @@ if length(col) == length(mult)
 				printf(strcat(filename, ' col', num2str(col(i)), ' drift removed\n\n'))
 				data.freq = detrend(data.freq);
 			elseif eval(argv(){4})(i) == 2
-				printf(strcat(filename, ' col', num2str(col(i)), ' relative ad\n\n'))
+				printf(strcat(filename, ' col', num2str(col(i)), ' relative ad : mean=', num2str(mean(data.freq)), '\n\n'))
                 data.freq = data.freq./mean(data.freq);
             elseif eval(argv(){4})(i) == 3
                 printf(strcat(filename, ' col', num2str(col(i)), ' drift removed relative ad\n\n'))
