@@ -1,8 +1,24 @@
 #!/usr/bin/octave-cli --persist
 
+# allanplot.m computes Allan deviation from temporal dataset
+#
+# use :	allanplot.m file.dat column_i gain_i ad_opt
+#		allanplot.m file.dat [column_i,column_j] [gain_i,gain_j] [ad_opt_i,ad_opt_j]
+#
+# inputs:
+#	file.dat : [string]			file to load
+#	columns : int or [int]		columns to load
+#	gains : float or [float]	gains to apply
+#	ad_opt : int or [int]		ad options :
+#										0 direct allan computation
+#										1 drift removed ad
+#										2 relative ad
+#										3 relative drift removed ad
+
 filename = argv(){1};
 col = eval(argv(){2});
 mult = eval(argv(){3});
+ad_opt = eval(argv(){4});
 
 if length(col) == length(mult)
 	figure
@@ -12,13 +28,13 @@ if length(col) == length(mult)
 	for i = [1:length(col)]
 		data.freq = load(filename)(:,col(i)).*mult(i);
 		if nargin == 4
-			if eval(argv(){4})(i) == 1
+			if ad_opt(i) == 1
 				printf(strcat(filename, ' col', num2str(col(i)), ' drift removed\n\n'))
 				data.freq = detrend(data.freq);
-			elseif eval(argv(){4})(i) == 2
+			elseif ad_opt(i) == 2
 				printf(strcat(filename, ' col', num2str(col(i)), ' relative ad : mean=', num2str(mean(data.freq)), '\n\n'))
                 data.freq = data.freq./mean(data.freq);
-            elseif eval(argv(){4})(i) == 3
+            elseif ad_opt(i) == 3
                 printf(strcat(filename, ' col', num2str(col(i)), ' drift removed relative ad\n\n'))
                 data.freq = detrend(data.freq./mean(data.freq));
 			end
