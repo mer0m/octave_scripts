@@ -12,7 +12,7 @@ if length(col) == length(mult)
 	cc = 'bkcgmry';
 	for i = [1:length(col)]
 		data.freq = load(filename)(:,col(i)).*mult(i);
-		[p, f] = pwelch(data.freq, hanning(length(data.freq)/8), 0.5, [], data.rate, 'onesided');
+		[p, f] = pwelch(data.freq, hanning(length(data.freq)/1), 0.5, [], data.rate, 'onesided', 'power');
 		semilogx(f, 10*log10(p), cc(mod(i, length(cc))))
 		leg{i} = strcat(filename, ' col', num2str(col(i)));
 		hold on
