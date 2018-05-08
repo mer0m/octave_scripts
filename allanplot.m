@@ -42,7 +42,7 @@ if length(col) == length(mult)
 			end
 		endif
 		data.rate = fs(i);
-		[ad, S, err, tau] = allan(data, 2.^[0:nextpow2(length(data.freq))-3]./data.rate, strcat(strsplit(filename, '/'){end}, num2str(i)), 0);
+		[ad, S, err, tau] = allan(data, horzcat(reshape([1:0.1:9]'.*10.^[0:round(log10(length(data.freq)))-1],1,[]), 10^(round(log10(length(data.freq)))-1))./data.rate, strcat(strsplit(filename, '/'){end}, num2str(i)), 0);
 		loglogerr(tau, ad, err, strcat(cc(mod(i, length(cc))), '-s'))
 		leg{i} = strcat(filename, ' col', num2str(col(i)));
 		axis(10.^ceil(log10([tau(1), tau(end)])))
