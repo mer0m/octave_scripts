@@ -4,8 +4,9 @@ filename = argv(){1};
 col = eval(argv(){2});
 mult = eval(argv(){3});
 data.fs = eval(argv(){4});
+f_hp = eval(argv(){5});
 
-[b, a] = butter (3, data.fs/1000, "high");
+[b, a] = butter (3, f_hp, "high");
 
 if length(col) == length(mult)
 	figure
