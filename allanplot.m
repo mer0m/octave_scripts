@@ -29,7 +29,7 @@ if length(col) == length(mult)
 	cc = 'bkcgmry';
 	for i = [1:length(col)]
 		data.freq = load(filename)(:,col(i)).*mult(i);
-		if nargin == 4
+		if nargin == 5
 			if ad_opt(i) == 1
 				printf(strcat(filename, ' col', num2str(col(i)), ' drift removed\n\n'))
 				data.freq = detrend(data.freq);
