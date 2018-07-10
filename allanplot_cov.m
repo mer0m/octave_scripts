@@ -25,7 +25,7 @@ if length(col1) == length(mult1)
 			data.freq2 = detrend(data.freq2);
 		end
 		data.rate = 1;
-		[ad, S, err, tau] = allan_cov(data, 2.^[0:nextpow2(length(data.freq))-3]./data.rate, strcat(strsplit(filename, '/'){end}, num2str(i)), 0);
+		[ad, S, err, tau] = allan_cov(data, horzcat(reshape([1:0.1:9]'.*10.^[0:round(log10(length(data.freq)))-1],1,[]), 10^(round(log10(length(data.freq)))-1))./data.rate, strcat(strsplit(filename, '/'){end}, num2str(i)), 0);
 		loglogerr(tau, ad, err, strcat(cc(mod(i, length(cc))), '-s'))
 		leg{i} = strcat(filename, ' cov col', num2str(col1(i)), ' col', num2str(col2(i)));
 		axis(10.^ceil(log10([tau(1), tau(end)])))
