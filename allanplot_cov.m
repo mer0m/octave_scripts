@@ -5,6 +5,7 @@ col1 = eval(argv(){2});
 col2 = eval(argv(){3});
 mult1 = eval(argv(){4});
 mult2 = eval(argv(){5});
+arg_save  = eval(argv(){6});
 
 if length(col1) == length(mult1)
 	figure
@@ -30,6 +31,11 @@ if length(col1) == length(mult1)
 		leg{i} = strcat(filename, ' cov col', num2str(col1(i)), ' col', num2str(col2(i)));
 		axis(10.^ceil(log10([tau(1), tau(end)])))
 		hold on
+		if arg_save ==1
+			filenameout = strcat(strsplit(filename,'.'){1},'-cov-',num2str(col1),num2str(col2),'.sig')
+			datatosave = horzcat(tau', ad', err');
+			save('-ascii', filenameout , 'datatosave');
+		end
 	end
 	legend(leg)
 	input("Press to continue...");
