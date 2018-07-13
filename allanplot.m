@@ -15,12 +15,16 @@
 #										1 drift removed ad
 #										2 relative ad
 #										3 relative drift removed ad
+#	arg_save : [int]				save adev with one file per column :
+#										0 without save
+#										1 save adev result to file-col.sig
 
 filename = argv(){1};
 col = eval(argv(){2});
 fs = eval(argv(){3});
 mult = eval(argv(){4});
 ad_opt = eval(argv(){5});
+arg_save  = eval(argv(){6});
 
 if length(col) == length(mult)
 	figure
@@ -47,6 +51,11 @@ if length(col) == length(mult)
 		leg{i} = strcat(filename, ' col', num2str(col(i)));
 		axis(10.^ceil(log10([tau(1), tau(end)])))
 		hold on
+		if arg_save ==1
+			filenameout = strcat(strsplit(filename,'.'){1},'-',num2str(col(i)),'.sig')
+			datatosave = horzcat(tau', ad', err');
+			save('-ascii', filenameout , 'datatosave');
+		end
 	end
 	legend(leg)
 	input("Press to continue...");
