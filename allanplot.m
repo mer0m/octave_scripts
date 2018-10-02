@@ -33,18 +33,16 @@ if length(col) == length(mult)
 	cc = 'bkcgmry';
 	for i = [1:length(col)]
 		data.freq = load(filename)(:,col(i)).*mult(i);
-		if nargin == 5
-			if ad_opt(i) == 1
-				printf(strcat(filename, ' col', num2str(col(i)), ' drift removed\n\n'))
-				data.freq = detrend(data.freq);
-			elseif ad_opt(i) == 2
-				printf(strcat(filename, ' col', num2str(col(i)), ' relative ad : mean=', num2str(mean(data.freq)), '\n\n'))
-				data.freq = data.freq./mean(data.freq);
-			elseif ad_opt(i) == 3
-				printf(strcat(filename, ' col', num2str(col(i)), ' drift removed relative ad\n\n'))
-				data.freq = detrend(data.freq./mean(data.freq));
-			end
-		endif
+		if ad_opt(i) == 1
+			printf(strcat(filename, ' col', num2str(col(i)), ' drift removed\n\n'))
+			data.freq = detrend(data.freq);
+		elseif ad_opt(i) == 2
+			printf(strcat(filename, ' col', num2str(col(i)), ' relative ad : mean=', num2str(mean(data.freq)), '\n\n'))
+			data.freq = data.freq./mean(data.freq);
+		elseif ad_opt(i) == 3
+			printf(strcat(filename, ' col', num2str(col(i)), ' drift removed relative ad\n\n'))
+			data.freq = detrend(data.freq./mean(data.freq));
+		end
 		data.rate = fs(i);
 		[ad, S, err, tau] = allan(data, horzcat(reshape([1:0.1:9]'.*10.^[0:round(log10(length(data.freq)))-1],1,[]), 10^(round(log10(length(data.freq)))-1))./data.rate, strcat(strsplit(filename, '/'){end}, num2str(i)), 0);
 		loglogerr(tau, ad, err, strcat(cc(mod(i, length(cc))), '-s'))
