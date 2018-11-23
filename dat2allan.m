@@ -1,9 +1,13 @@
 #!/usr/bin/octave-cli -q
 
-# allanplot.m computes Allan deviation from temporal dataset
+# dat2allan.m computes Allan deviation from temporal dataset and disp the result to stdout (with tab spaced values)
 #
-# use :	allanplot.m file.dat column_i gain_i ad_opt
-#		allanplot.m file.dat [column_i,column_j] [gain_i,gain_j] [ad_opt_i,ad_opt_j]
+# use with gnuplot:
+#		set log xy
+#		set format "%E"
+#		plot "< dat2allan.m 'file.dat' column_i gain_i ad_opt" u 1:2:3 with yerrorlines
+#	or
+#		plot "< dat2allan.m 'file.dat' [column_i,column_j] [gain_i,gain_j] [ad_opt_i,ad_opt_j]" u 1:2:3 with yerrorlines
 #
 # inputs:
 #	file.dat : [string]			file to load
