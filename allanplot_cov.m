@@ -34,7 +34,7 @@ if length(col1) == length(mult1)
 		if arg_save ==1
 			filenameout = strcat(strsplit(filename,'.'){1},'-cov-',num2str(col1),num2str(col2),'.sig')
 			datatosave = horzcat(tau', ad', err');
-			save('-ascii', filenameout , 'datatosave');
+			save('-text', filenameout , 'datatosave');
 		end
 	end
 	legend(leg)

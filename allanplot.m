@@ -52,7 +52,7 @@ if length(col) == length(mult)
 		if arg_save ==1
 			filenameout = strcat(strsplit(filename,'.'){1},'-',num2str(col(i)),'.sig')
 			datatosave = horzcat(tau', ad', err');
-			save('-ascii', filenameout , 'datatosave');
+			save('-text', filenameout , 'datatosave');
 		end
 	end
 	legend(leg)
