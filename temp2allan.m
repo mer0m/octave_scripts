@@ -30,5 +30,5 @@ tosave = tau';
 for i = [1:length(col)]
 	tosave = horzcat(tosave, ad_tosave{i});
 end
-save('-text', strcat(strsplit(filename, '.'){1}, '_ad.dat'), 'tosave');
+save('-ascii', '-double', '-tabs', strcat(strsplit(filename, '.'){1}, '_ad.dat'), 'tosave');
 end
