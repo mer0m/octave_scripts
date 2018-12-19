@@ -3,10 +3,6 @@
 filename = argv(){1};
 col = eval(argv(){2});
 mult = eval(argv(){3});
-
-filename = argv(){1};
-col = eval(argv(){2});
-mult = eval(argv(){3});
 ad_opt = eval(argv(){4});
 
 if length(col) == length(mult)
